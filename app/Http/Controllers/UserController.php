@@ -74,4 +74,11 @@ class UserController extends Controller
             return back()->withErrors(['oldPassword' => 'Senha inválida']);
         }
     }
+
+    public function delete(){
+        $user = Auth::user();
+        if($this->contatosModel->where('id_user', $user->id)->delete() && $user->delete()){
+            return redirect('/');
+        }
+    }
 }

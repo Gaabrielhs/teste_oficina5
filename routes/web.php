@@ -33,6 +33,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('password', 'UserController@password')->name('password');
     Route::post('password/edit', 'UserController@editPassword')->name('password.edit');
 
+    Route::get('delete', 'UserController@delete')->name('delete.user');
     
 });
 
