@@ -27,6 +27,10 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::get('profile', 'UserController@profile')->name('profile');
+    Route::post('profile/edit', 'UserController@edit')->name('edit.user');
+
+    Route::get('password', 'UserController@password')->name('password');
+    Route::post('password/edit', 'UserController@editPassword')->name('password.edit');
 });
 
 

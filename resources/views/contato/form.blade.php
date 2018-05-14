@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Adicionar Contato</div>
+                <div class="card-header">Contato</div>
                 <div class="card-body">
                     <form method="POST" action="{{ route('add.contato') }}">
                         @csrf
