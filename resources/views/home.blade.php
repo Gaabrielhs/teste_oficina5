@@ -3,24 +3,52 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="card">
-                <div class="card-header">Dashboard</div>
+                <div class="card-header">
+                    Contatos
+                    <div class="float-right">
+                        <a href="{{ route('contato') }}" class="btn btn-sm btn-info">Adicionar</a>
+                    </div>
+                </div>
 
                 <div class="card-body">
                     @if (session('status'))
                         <div class="alert alert-success">
                             {{ session('status') }}
                         </div>
+                        @php
+                            session(['status' => false]);
+                        @endphp
                     @endif
 
-
-                    @foreach($contatos as $contato)
-                        <div>Nome: {{ $contato->name }}</div></br>
-                        <div>Email: {{ $contato->email }}</div></br>
-                        <div>Telefone: {{ $contato->phone_number }}</div></br>
-                        <div>Data de Nascimento: {{ $contato->birthdate }}</div></br>
-                    @endforeach
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Email</th>
+                                <th>Telefone</th>
+                                <th>Data de Nasc</th>
+                                <th>Editar</th>
+                                <th>Excluir</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($contatos as $contato)
+                            <tr>
+                                <th>{{ $contato->id }}</td>
+                                <td>{{ $contato->name }}</td>
+                                <td>{{ $contato->email }}</td>
+                                <td>{{ $contato->phone_number }}</td>
+                                <td>{{ $contato->birthdate }}</td>
+                                <td><a class="btn btn-info" href="{{ route('contato', ['id' => $contato->id]) }}">+</a></td>
+                                <td><a class="btn btn-danger" href="{{ route('delete.contato', ['id' => $contato->id]) }}">-</a></td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    
                 </div>
             </div>
         </div>

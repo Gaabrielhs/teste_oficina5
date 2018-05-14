@@ -17,4 +17,17 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/home', 'UserController@index')->name('home');
+
+    Route::prefix('contato')->group(function () {
+        Route::get('/{id?}', 'ContatoController@form')->name('contato');
+        Route::post('/add', 'ContatoController@store')->name('add.contato');
+        Route::get('/delete/{id}', 'ContatoController@delete')->name('delete.contato');
+    });
+
+    Route::get('profile', 'UserController@profile')->name('profile');
+});
+
+
+
