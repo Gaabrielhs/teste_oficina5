@@ -31,7 +31,8 @@
                             <a href="{{ route('password') }}">Alterar senha?</a>
                         </div>
                         <div class="form-group">
-                            <a href="{{ route('delete.user') }}" class="text-danger">Excluir conta</a>
+                            <a href="#" class="text-danger" id="delete_user">Excluir conta</a>
+                            
                         </div>
                         <div class="form-group">
                             <input type="submit" value="Salvar" class="btn btn-info">

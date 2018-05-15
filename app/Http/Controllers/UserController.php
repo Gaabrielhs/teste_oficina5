@@ -77,7 +77,8 @@ class UserController extends Controller
 
     public function delete(){
         $user = Auth::user();
-        if($this->contatosModel->where('id_user', $user->id)->delete() && $user->delete()){
+        $this->contatosModel->where('id_user', $user->id)->delete();
+        if($user->delete()){
             return redirect('/');
         }
     }

@@ -53,7 +53,7 @@
                                 <td>{{ $contato->phone_number }}</td>
                                 <td>{{ date("d/m/Y", strtotime($contato->birthdate)) }}</td>
                                 <td><a class="btn btn-info" href="{{ route('contato', ['id' => $contato->id]) }}">+</a></td>
-                                <td><a class="btn btn-danger" href="{{ route('delete.contato', ['id' => $contato->id]) }}">x</a></td>
+                                <td><a class="btn btn-danger del-contact" href="#" data-name="{{ explode(' ', $contato->name)[0] }}" data-href="{{ route('delete.contato', ['id' => $contato->id]) }}">x</a></td>
                             </tr>
             
                             @endforeach

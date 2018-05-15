@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use App\Models\Contatos;
 
 class ContatoController extends Controller
@@ -31,6 +32,24 @@ class ContatoController extends Controller
 
     public function store(Request $request){
         $data = $request->all();
+        $messages = [
+            'email.required' => 'O email é obrigatório',
+            'name.required' => 'O nome é obrigatório',
+            'phone_number.required' => 'O telefone é obrigatório',
+            'phone_number.min' => 'Telefone inválido',
+            'birthdate.required' => 'A data de nascimento é obrigatória',
+        ];
+
+        Validator::make($data, [
+            'email' => 'required|unique:users|max:255',
+            'name' => 'required',
+            'phone_number' => 'required|min:14',
+            'birthdate' => 'required|min:10'
+        ], $messages)->validate();
+
+        //retirando a máscara
+        $data['phone_number'] = str_replace(['(', ')', '-', ' '], '',$data['phone_number']);
+
         $validation = $this->contato->where('id_user', Auth::user()->id)
             ->where('id', '<>', $data['id'])->get();
 
@@ -57,7 +76,7 @@ class ContatoController extends Controller
                 }
             }
         }else{
-            return back()->withErrors(['duplicidade' => 'Contato já adicionado']);
+            return back()->withErrors(['duplicidade' => 'Contato já adicionado'])->withInput();
         }
             
         
@@ -79,6 +98,7 @@ class ContatoController extends Controller
         $data = $this->contato->where('name', 'like', '%'.$query.'%')->orWhere('phone_number', 'like', '%'.$query.'%')->get();
         $data = $data->where('id_user', Auth::user()->id);
 
+        session(['status' => count($data).' contato(s) encontrado(s)']);
         return view('home', ['contatos' => $data]);
     }
 }
