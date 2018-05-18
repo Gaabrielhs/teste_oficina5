@@ -37,13 +37,13 @@ class ContatoController extends Controller
         //retirando a máscara
         $data['phone_number'] = str_replace(['(', ')', '-', ' '], '',$data['phone_number']);
 
-        $validation = $this->contato->where('id_user', Auth::user()->id)
+        /*$validation = $this->contato->where('id_user', Auth::user()->id)
             ->where('id', '<>', $data['id'])->get();
 
     
         $validation1 = $validation->where('email', $data['email'])->count();
-        $validation2 = $validation->where('phone_number', $data['phone_number'])->count();
-        if($validation1 == 0 && $validation2 == 0){
+        $validation2 = $validation->where('phone_number', $data['phone_number'])->count();*/
+        
             if($data['id']){
                 $contato = $this->contato->find($data['id']);
                 if($contato->id_user == Auth::user()->id){
@@ -62,9 +62,7 @@ class ContatoController extends Controller
                     return redirect()->route('home');
                 }
             }
-        }else{
-            return back()->withErrors(['duplicidade' => 'Contato já adicionado'])->withInput();
-        }
+       
             
         
     }
