@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\StoreContato;
 use App\Models\Contatos;
 
 class ContatoController extends Controller
@@ -30,23 +31,9 @@ class ContatoController extends Controller
     
     }
 
-    public function store(Request $request){
+    public function store(StoreContato $request){
         $data = $request->all();
-        $messages = [
-            'email.required' => 'O email é obrigatório',
-            'name.required' => 'O nome é obrigatório',
-            'phone_number.required' => 'O telefone é obrigatório',
-            'phone_number.min' => 'Telefone inválido',
-            'birthdate.required' => 'A data de nascimento é obrigatória',
-        ];
-
-        Validator::make($data, [
-            'email' => 'required|unique:users|max:255',
-            'name' => 'required',
-            'phone_number' => 'required|min:14',
-            'birthdate' => 'required|min:10'
-        ], $messages)->validate();
-
+        
         //retirando a máscara
         $data['phone_number'] = str_replace(['(', ')', '-', ' '], '',$data['phone_number']);
 
