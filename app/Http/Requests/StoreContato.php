@@ -24,8 +24,8 @@ class StoreContato extends FormRequest
     public function messages()
     {
         return [
-            'email.required' => 'O email é obrigatório',
             'name.required' => 'O nome é obrigatório',
+            'email.required' => 'O email é obrigatório',
             'phone_number.required' => 'O telefone é obrigatório',
             'phone_number.min' => 'Telefone inválido',
             'birthdate.required' => 'A data de nascimento é obrigatória',

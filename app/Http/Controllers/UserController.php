@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\EditUser;
+use App\Http\Requests\EditPassword;
 use App\Models\Contatos;
 use App\User;
 
@@ -33,19 +35,9 @@ class UserController extends Controller
         return view('profile', ['user' => Auth::user()]);
     }
 
-    public function edit(Request $request){
+    public function edit(EditUser $request){
         $data = $request->all();
         $user = Auth::user();
-        if($user->email != $data['email']){
-            Validator::make($data, [
-                'email' => 'required|unique:users|max:255',
-                'name' => 'required',
-            ])->validate();
-        }else{
-            Validator::make($data, [
-                'name' => 'required',
-            ])->validate();
-        }
         $user->fill($data);
         if($user->save()){
             session(['status' => 'Perfil alterado com sucesso!']);
@@ -57,22 +49,14 @@ class UserController extends Controller
         return view('password');
     }
 
-    public function editPassword(Request $request){
-        $old = $request->input('oldPassword');
+    public function editPassword(EditPassword $request){
         $user = Auth::user();
-        if(Hash::check($old, $user->password)){
-            Validator::make($request->all(), [
-                'password' => 'required|string|min:6|confirmed',
-            ])->validate();
-
-            $user->password = Hash::make($request->input('password'));
-            if($user->save()){
-                session(['status' => 'Senha alterada com sucesso!']);
-                return redirect()->route('home');
-            }
-        }else{
-            return back()->withErrors(['oldPassword' => 'Senha inválida']);
+        $user->password = Hash::make($request->input('password'));
+        if($user->save()){
+            session(['status' => 'Senha alterada com sucesso!']);
+            return redirect()->route('home');
         }
+        
     }
 
     public function delete(){
