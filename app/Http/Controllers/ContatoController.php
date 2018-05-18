@@ -33,16 +33,8 @@ class ContatoController extends Controller
 
     public function store(StoreContato $request){
         $data = $request->all();
-        
         //retirando a máscara
         $data['phone_number'] = str_replace(['(', ')', '-', ' '], '',$data['phone_number']);
-
-        /*$validation = $this->contato->where('id_user', Auth::user()->id)
-            ->where('id', '<>', $data['id'])->get();
-
-    
-        $validation1 = $validation->where('email', $data['email'])->count();
-        $validation2 = $validation->where('phone_number', $data['phone_number'])->count();*/
         
             if($data['id']){
                 $contato = $this->contato->find($data['id']);
@@ -55,16 +47,12 @@ class ContatoController extends Controller
                 }
             }else{
                 $this->contato->fill($data);
-                $user_id = Auth::user()->id;
-                $this->contato->id_user = $user_id;
+                $this->contato->id_user = Auth::user()->id;
                 if($this->contato->save()){
                     session(['status' => 'Contato adicionado com sucesso!']);
                     return redirect()->route('home');
                 }
-            }
-       
-            
-        
+            }  
     }
 
     public function delete($id){

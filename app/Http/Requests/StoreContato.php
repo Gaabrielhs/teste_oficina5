@@ -27,11 +27,11 @@ class StoreContato extends FormRequest
     {
         return [
             'name.required' => 'O nome é obrigatório',
-            'name.unique' => 'Contato :input já adicionado',
+            'name.unique' => 'Já existe um contato com o nome de :input adicionado',
             'email.required' => 'O email é obrigatório',
             'phone_number.required' => 'O telefone é obrigatório',
             'phone_number.min' => 'Telefone inválido',
-            'phone_number.unique' => 'Telefone já adicionado',
+            'phone_number.unique' => 'Já existe contato com esse nº de telefone.',
             'birthdate.required' => 'A data de nascimento é obrigatória',
         ];
     }
