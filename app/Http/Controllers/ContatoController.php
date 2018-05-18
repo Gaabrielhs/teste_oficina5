@@ -32,41 +32,30 @@ class ContatoController extends Controller
     }
 
     public function store(StoreContato $request){
+
+        $request->merge(['phone_number', 'phone_number_mask']);
+
         $data = $request->all();
-        
+                
         //retirando a máscara
         $data['phone_number'] = str_replace(['(', ')', '-', ' '], '',$data['phone_number']);
-
-        $validation = $this->contato->where('id_user', Auth::user()->id)
-            ->where('id', '<>', $data['id'])->get();
-
     
-        $validation1 = $validation->where('email', $data['email'])->count();
-        $validation2 = $validation->where('phone_number', $data['phone_number'])->count();
-        if($validation1 == 0 && $validation2 == 0){
-            if($data['id']){
-                $contato = $this->contato->find($data['id']);
-                if($contato->id_user == Auth::user()->id){
-                    $contato->fill($data);
-                    if($contato->save()){
-                        session(['status' => 'Contato alterado com sucesso!']);
-                        return redirect()->route('home');
-                    }
-                }
-            }else{
-                $this->contato->fill($data);
-                $user_id = Auth::user()->id;
-                $this->contato->id_user = $user_id;
-                if($this->contato->save()){
-                    session(['status' => 'Contato adicionado com sucesso!']);
-                    return redirect()->route('home');
-                }
+
+        if($data['id']){
+            $contato = $this->contato->find($data['id']);
+            if($contato->save()){
+                session(['status' => 'Contato alterado com sucesso!']);
+                return redirect()->route('home');
             }
-        }else{
-            return back()->withErrors(['duplicidade' => 'Contato já adicionado'])->withInput();
         }
-            
-        
+        else{
+            $contato = $this->contato->fill($data);
+            if($contato->save()){
+                session(['status' => 'Contato adicionado com sucesso!']);
+                return redirect()->route('home');
+            }
+        }
+         
     }
 
     public function delete($id){

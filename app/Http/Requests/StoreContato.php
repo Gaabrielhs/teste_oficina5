@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreContato extends FormRequest
@@ -25,6 +26,8 @@ class StoreContato extends FormRequest
     {
         return [
             'name.required' => 'O nome é obrigatório',
+            'name.unique' => 'Já existe contato com esse nome cadastrado.',
+            'phone_number.unique' => 'Já existe contato com esse nº de telefone.',
             'email.required' => 'O email é obrigatório',
             'phone_number.required' => 'O telefone é obrigatório',
             'phone_number.min' => 'Telefone inválido',
@@ -38,12 +41,14 @@ class StoreContato extends FormRequest
      * @return array
      */
     public function rules()
-    {
+   {
         return [
-            'email' => 'required|unique:users|max:255',
-            'name' => 'required',
-            'phone_number' => 'required|min:14',
-            'birthdate' => 'required|min:10'
+            'email' => 'required|max:255',
+            'name' => 'required|unique:contatos,name,'.Request::user()->id.'id_user',
+            'phone_number' => 'required|min:14|unique:contatos,phone_number,'.Request::user()->id.'id_user',
+            'birthdate' => 'required|min:10',
+            'phone_number_mask' => '',
+            'id_user'=>'required'
         ];
     }
 }

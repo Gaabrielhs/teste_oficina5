@@ -13,7 +13,7 @@ class Contatos extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'phone_number', 'birthdate',
+        'name', 'email', 'phone_number', 'birthdate','id_user'
     ];
 
     /**
