@@ -33,12 +33,9 @@ class ContatoController extends Controller
 
     public function store(StoreContato $request){
 
-        $request->merge(['phone_number', 'phone_number_mask']);
+        $request->merge(['phone_number' => str_replace(['(', ')', '-', ' '], '',$request->get('phone_number'))]);
 
         $data = $request->all();
-                
-        //retirando a máscara
-        $data['phone_number'] = str_replace(['(', ')', '-', ' '], '',$data['phone_number']);
     
 
         if($data['id']){

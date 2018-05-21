@@ -36,6 +36,21 @@ class StoreContato extends FormRequest
     }
 
     /**
+     * Get data to be validated from the request.
+     *
+     * @return array
+     */
+    public function validationData() {
+        //Formata o telefone antes de comparar o unique da rule abaixo
+        return array_merge(
+            $this->all(),
+            [
+                'phone_number' => str_replace(['(', ')', '-', ' '], '',$this->phone_number)
+            ]
+        );
+    }
+
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array
@@ -45,9 +60,8 @@ class StoreContato extends FormRequest
         return [
             'email' => 'required|max:255',
             'name' => 'required|unique:contatos,name,'.Request::user()->id.'id_user',
-            'phone_number' => 'required|min:14|unique:contatos,phone_number,'.Request::user()->id.'id_user',
+            'phone_number' => 'required|min:11|unique:contatos,phone_number,'.Request::user()->id.'id_user',
             'birthdate' => 'required|min:10',
-            'phone_number_mask' => '',
             'id_user'=>'required'
         ];
     }

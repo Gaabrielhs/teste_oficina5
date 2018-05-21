@@ -31,7 +31,7 @@
                         </div>
                         <div class="form-group">
                             <label for="phone_number">Telefone</label>    
-                            <input type="tel" name="phone_number" id="phone_number" class="form-control" maxlength="15" value="{{ $contato->phone_number_mask }}{{ old('phone_number') }}">
+                            <input type="tel" name="phone_number" id="phone_number" class="form-control" maxlength="15" value="{{ $contato->phone_number }}{{ old('phone_number') }}">
                         </div>
                         <div class="form-group">
                             <label for="birthdate">Data de Nascimento</label>    
