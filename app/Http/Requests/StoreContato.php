@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
@@ -62,10 +63,10 @@ class StoreContato extends FormRequest
         return [
             'email' => 'required|max:255',
             'name' => ['required', Rule::unique('contatos')->where(function ($query) {
-                return $query->where('id_user', Auth::user()->id);
+                return $query->where('id_user', Auth::user()->id)->where('id', '<>', Request::input('id'));
             })],
             'phone_number' => ['required','min:10',Rule::unique('contatos')->where(function ($query) {
-                return $query->where('id_user', Auth::user()->id);
+                return $query->where('id_user', Auth::user()->id)->where('id', '<>', Request::input('id'));
             })],
             'birthdate' => 'required|min:10'
         ];
